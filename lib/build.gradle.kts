@@ -105,8 +105,8 @@ tasks.named("build") {
 }
 
 // Creates the fat JAR that includes all your dependencies.
-tasks.named("startScripts") {
-    dependsOn("fatJar")
-}
+//tasks.named("startScripts") {
+//    dependsOn("fatJar")
+//}
 
 
