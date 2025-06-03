@@ -72,7 +72,7 @@ tasks.register<Jar>("fatJar") {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     manifest {
-        attributes["Main-Class"] = "junit.gradle.HelloWorld"
+        attributes["Main-Class"] = "weather.server.WeatherReqeust"
     }
 
     from(sourceSets.main.get().output)
