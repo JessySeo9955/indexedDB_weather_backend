@@ -44,7 +44,7 @@ jobs:
         echo "Updating Lambda function code..."
         aws lambda update-function-code \
           --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
-          --zip-file fileb://app/build/libs/app.jar \
+          --zip-file fileb://lib/build/libs/app.jar \
           --region ${{ secrets.AWS_REGION }} 
 
     # Step 5: Redeploy API Gateway
