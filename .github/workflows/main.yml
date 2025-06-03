@@ -56,5 +56,5 @@ jobs:
       run: |
         aws apigatewayv2 create-deployment \
           --api-id ${{ secrets.API_GATEWAY_ID }} \
-          --stage-name ${{ secrets.API_STAGE_NAME }} \
+          --stage-name "${{ secrets.STAGE_NAME }}" \
           --region ${{ secrets.AWS_REGION }}
