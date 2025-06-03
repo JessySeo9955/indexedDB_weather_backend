@@ -55,7 +55,7 @@ public class WeatherReqeustTest {
 	    
 	    // Define the mock response body as the JSON string
 	    // Define the mock response body as the JSON string
-	    String jsonbody = "{\"list\":[{\"coord\":{\"lon\":-75.7286,\"lat\":45.3359},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\":\"broken clouds\",\"icon\":\"04d\"}],\"base\":\"stations\",\"main\":{\"temp\":293.41,\"feels_like\":292.54,\"temp_min\":292.06,\"temp_max\":295.18,\"pressure\":1011,\"humidity\":40,\"sea_level\":1011,\"grnd_level\":1000},\"visibility\":10000,\"wind\":{\"speed\":5.14,\"deg\":310,\"gust\":9.77},\"clouds\":{\"all\":75},\"dt\":1748893896,\"sys\":{\"type\":1,\"id\":872,\"country\":\"CA\",\"sunrise\":1748855864,\"sunset\":1748911470},\"timezone\":-14400,\"id\":5909024,\"name\":\"Britannia\",\"cod\":200}]}";
+	    String jsonbody = "{\"list\":[{\"coord\":{\"lon\":-75.7286,\"lat\":45.3359},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\":\"broken clouds\",\"icon\":\"04d\"}],\"base\":\"stations\",\"main\":{\"temp\":293.41,\"feels_like\":292.54,\"temp_min\":292.06,\"temp_max\":295.18,\"pressure\":1011,\"humidity\":40,\"sea_level\":1011,\"grnd_level\":1000},\"visibility\":10000,\"wind\":{\"speed\":5.14,\"deg\":310,\"gust\":9.77},\"clouds\":{\"all\":75},\"sys\":{\"type\":1,\"id\":872,\"country\":\"CA\",\"sunrise\":1748855864,\"sunset\":1748911470},\"timezone\":-14400,\"id\":5909024,\"name\":\"Britannia\",\"cod\":200}]}";
 
 	    // Mock response to return the JSON body
 	    when(response.body()).thenReturn(jsonbody);
