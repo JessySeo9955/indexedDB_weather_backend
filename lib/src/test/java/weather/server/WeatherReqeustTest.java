@@ -10,8 +10,6 @@ import static org.mockito.Mockito.*;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.LambdaLogger;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -77,4 +75,27 @@ public class WeatherReqeustTest {
 	    assertTrue(result.contains("wind"));
 	}
 	
+	
+//	@Test
+//	public void testHandleRequestReturnsValidApiResponseFormat() throws Exception {
+//	    // Arrange
+//	    WeatherReqeust weather = spy(new WeatherReqeust());
+//
+//	    APIGatewayProxyRequestEvent event = new APIGatewayProxyRequestEvent();
+//	    event.setBody("{\"type\":\"hours\", \"api\":\"test\"}");  // Make sure 'type' is "hours"
+//	    HttpResponse<String> mockResponse = mock(HttpResponse.class);
+//	    when(mockResponse.body()).thenReturn("{}");
+//	    doReturn(mockResponse).when(weather).requestWeatherData(any());
+//
+//	    doReturn("dummyHourlyData").when(weather).transformHourlyData(any());  // Mocking the expected return value for hourly data
+//	    doReturn("dummyWeatherData").when(weather).transformWeatherData(any());  // Mocking the expected return value for weather data
+//
+////	    // Act
+//	    weather.handleRequest(event, null);  // The method we're testing
+////
+////	    // Assert
+//	    verify(weather, times(1)).transformHourlyData(any());  // This should be called
+////	    verify(weather).transformWeatherData(any());  // This should NOT be called
+////	}
+//	}
 }

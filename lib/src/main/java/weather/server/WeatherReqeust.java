@@ -80,7 +80,7 @@ public class WeatherReqeust implements RequestHandler<APIGatewayProxyRequestEven
 		ObjectMapper objectMapper = new ObjectMapper();
 		
 		// Extract and parse temperature data
-		String mainString = getTextFromJson("main", json);
+		String mainString = getJsonObjectFromJson("main", json);
 		String description = json.get("weather").get(0).get("description").asText();
 
 		WeatherTemperature temperature = objectMapper.readValue(mainString, WeatherTemperature.class);
@@ -89,7 +89,7 @@ public class WeatherReqeust implements RequestHandler<APIGatewayProxyRequestEven
 		temperature.setTimezone(json.get("timezone").asDouble());
 
 		// Extract and parse wind data
-		String windString = getTextFromJson("wind", json);
+		String windString = getJsonObjectFromJson("wind", json);
 		WeatherWind wind = objectMapper.readValue(windString, WeatherWind.class);
 
 		// Combine both objects into one response
@@ -117,8 +117,12 @@ public class WeatherReqeust implements RequestHandler<APIGatewayProxyRequestEven
 	    return objectMapper.writeValueAsString(resultArray);
 	}
 
-	private static String getTextFromJson(String key, JsonNode json) {
+	private static String getJsonObjectFromJson(String key, JsonNode json) {
 		return json.get(key).toString();
+	}
+	
+	private static String getTextFromJson(String key, JsonNode json) {
+		return json.get(key).asText();
 	}
 
 	public static void main(String[] args) throws JsonMappingException, JsonProcessingException {
