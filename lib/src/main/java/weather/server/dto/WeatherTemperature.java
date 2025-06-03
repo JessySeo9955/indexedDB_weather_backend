@@ -8,8 +8,8 @@ public class WeatherTemperature {
 	  private double feels_like;
 	  private double humidity;
 	  private String description;
-	  private double dt;
-	  private double timezone;
+	  private int dt;
+	  private int timezone;
 
 
 
@@ -23,11 +23,11 @@ public class WeatherTemperature {
 	    }
 
 
-	  public double getDt() {
+	  public int getDt() {
 	    return dt;
 	  }
 
-	  public double getTimezone() {
+	  public int getTimezone() {
 	    return timezone;
 	  }
 
@@ -50,11 +50,11 @@ public class WeatherTemperature {
 	        this.feels_like = feels_like;
 	    }
 
-	  public void setDt( double  dt ) {
+	  public void setDt( int  dt ) {
 	    this.dt = dt;
 	  }
 
-	  public void setTimezone( double timezone ) {
+	  public void setTimezone( int timezone ) {
 	    this.timezone = timezone;
 	  }
 
