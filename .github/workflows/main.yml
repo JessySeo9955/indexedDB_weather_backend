@@ -1,0 +1,60 @@
+name: Deploy JAR to Lambda and Redeploy API Gateway
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment when you push to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: dev
+
+    steps:
+    # Step 1: Checkout the code
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Step 2: Set up Amazon Corretto 21 (JDK 21)
+    - name: Set up Amazon Corretto 21
+      uses: actions/setup-java@v3
+      with:
+        java-version: '21'
+        distribution: 'corretto'
+
+   # Step 3: Make gradlew executable
+    - name: Make gradlew executable
+      run: chmod +x gradlew
+
+    # Step 3: Build the JAR file (using Gradle)
+    - name: Build JAR file using Gradle
+      run: ./gradlew fatJar  # Adjust this if you're using Maven or have custom build steps
+      env:
+        SECRET_KEY: ${{ secrets.OPEN_WEATHER_SECRET_KEY }}
+
+    # Step 4: Deploy JAR to AWS Lambda
+    - name: Deploy JAR to AWS Lambda and set environment variable
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+        LAMBDA_FUNCTION_NAME: ${{ secrets.LAMBDA_FUNCTION_NAME }}
+        SECRET_KEY: ${{ secrets.OPEN_WEATHER_SECRET_KEY }}
+      run: |
+        echo "Updating Lambda function code..."
+        aws lambda update-function-code \
+          --function-name ${{ secrets.LAMBDA_FUNCTION_NAME }} \
+          --zip-file fileb://app/build/libs/app.jar \
+          --region ${{ secrets.AWS_REGION }} 
+
+    # Step 5: Redeploy API Gateway
+    - name: Redeploy API Gateway
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
+      run: |
+        aws apigatewayv2 create-deployment \
+          --api-id ${{ secrets.API_GATEWAY_ID }} \
+          --stage-name ${{ secrets.API_STAGE_NAME }} \
+          --region ${{ secrets.AWS_REGION }}
