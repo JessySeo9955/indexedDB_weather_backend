@@ -59,3 +59,54 @@ tasks.named<Test>("test") {
 
     systemProperty("cucumber.junit-platform.naming-strategy", "long")
 }
+
+// All libraries  included - simple, easy way
+tasks.register<Jar>("fatJar") {
+    group = "build"
+    description = "Builds a self-contained JAR for AWS Lambda"
+
+    archiveBaseName.set("app")
+    archiveVersion.set("")
+    archiveClassifier.set("")
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes["Main-Class"] = "junit.gradle.HelloWorld"
+    }
+
+    from(sourceSets.main.get().output)
+
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
+
+//seperate lib files -  If I need to use lambda layer
+tasks.register<Zip>("buildLambdaZip") {
+    group = "build"
+    description = "Package AWS Lambda zip with JAR and dependencies"
+
+    dependsOn("fatJar") // Ensure fatJar is created before this task runs
+
+    destinationDirectory.set(layout.buildDirectory.dir("distributions"))
+    archiveFileName.set("lambda.zip")
+
+    // Put the fat JAR inside the zip
+    into("lib") {
+        from(tasks.named<Jar>("fatJar").flatMap { it.archiveFile })
+    }
+}
+
+// Runs first and ensures that fatJar runs as part of the build process.
+tasks.named("build") {
+    dependsOn("fatJar")
+}
+
+// Creates the fat JAR that includes all your dependencies.
+tasks.named("startScripts") {
+    dependsOn("fatJar")
+}
+
+
